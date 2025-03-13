@@ -263,7 +263,7 @@ O que eu sei (login e senha)
 o que eu sou (biometria)
 o que eu tenho (dispositivo)
 
-2. Autorização
+2. Autorização (permissões)
 
 o Jogn pode mexer nesses dois baldes, mas NÃO pode mexer nesse banco de dados.
 
@@ -281,6 +281,97 @@ Dar ao usuario apenas as permissões necessárias para executar uma tarefa.
 
 Se trafegar dados na internet, tem que usar criptografia. Mesmo que seja local.
 
+
+
+## Aula 13/03/25
+
+
+### Aula anterior
+- Modelo de responsabilidade compartilhado
+- Principio do privilegio minimo
+- autenticação
+- autorização
+- Identity and access management
+- usuarios
+- acesso pela console / acesso programatico
+
+### Meios de acesso a AWS
+- Acesso Console (Web)
+- Acesso Programatica (AWS CLI)
+
+### Criação de user e grous
+- IAM User
+- IAM Group
+
+
+
+### Informações para configurar o acesso programatica (AWS CLI)
+- Acess Key
+- Secrety Key
+
+
+### Melhores praticas
+- Hablitar MFA
+- Definir expiração da conta
+
+### Usuário root
+- Usuário master, pode fazer tudo na conta
+- Habilitar MFA
+- **NUNCA** usar no dia a dia
+
+### Criação e usuario novo
+- Por padrão ele não tem nenhuma permissão
+- Temos que dar uma permissão nas `policies`
+
+
+### IAM Roles
+- IMPORTANTE
+> Zezinho trabalha no banjedão
+>
+> Mas ele trabalha na cozinha
+>
+>Todo mundo quer comer quando chega na facul
+>
+> E a fila do caixa fica gigantesca
+>
+> Zezinho lava a mao e fica no caixa
+>
+> Ele perde a permissão de acessar a cozinha e ganha permissão para acessar o caixa
+>
+- Para faezr isso vou no console, e crio uma **Role**
+
+- Vou copiar o ARN (Um código unico)
+> AWS Pergunta: Pra quem você confia 
+>
+>Dou a permissão para que ele possa assumir outros papeis
+>
+>Quem 
+>
+>Rever
+
+
+
+#### Qual a vantagem?
+
+- Com role definimos o tempo maximo de sessão (1 ou 12h)
+
+1. A sessão do zezinho deixa de valer e ele perde esse papel e ele volta ao papel original dele.
+
+2. Toda vez que voce assume uma **role**, eu bato no **sts**
+
+3. Gera uma nova access key e secrety key e usa uma nova chave.
+
+4. É uma chave de curta direção, se vazar não há tanto problema.
+
+5. Se o tempo acabar ele pode assumir e novo, e o processo começa novamente
+
+6. É um acesso temporario
+
+#### Instance Profile
+
+- É uma role, um papel
+
+- Consigo amarrar uma credencial a uma maquina virtual
 
 
 
