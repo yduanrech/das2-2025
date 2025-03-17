@@ -374,6 +374,135 @@ Se trafegar dados na internet, tem que usar criptografia. Mesmo que seja local.
 - Consigo amarrar uma credencial a uma maquina virtual
 
 
+ ## 17 03 25
+
+ ### RBAC - Role Basic Access Control
+
+
+ Há alguns tipos de Polices, entre elas:
+ 1. Polices Gerenciaveis
+ 2. Não gerenciaveis
+
+ - São polices de identidade
+        -- Eu vou no zezinho e falo qual permissão ele  tem
+
+#### Há polices de recursos
+
+- Eu quero hospedar um site estatico, o que eu faço?
+
+1. Vou no S3 e dou um nome
+
+2. Apesar de habilitar a hospedagem, da 403, pois ele não é publico
+
+3. Todo balde é bloqueado por padrão em virar publico.
+
+4. Mesmo depois de permitir ele publico, irá dar 403
+- ode: AccessDenied
+-Message: Access Denied
+
+5. Tenho que criar uma Police que permite que qualquer usuario, possa pegar ou listar objetos do meu bucket. Ai eu aplico a alteração
+- ARM
+
+6. Irá funcionar
+
+#### Police de recurso você vai no recurso e escreve um doc dizendo a permissão.
+
+- Você não é o Deus da conta da AWS, mas você tem a permissão de criar um bucket, voce pode querer compartilhar o bucket com o colega do lado, mas você não tem permissão de ir no IAM e compartilhar. Ai você vai no bucket e compartilha, é mais granular. É possivel ser feito pelo IAM também.
+
+### Prova de certificação
+#### É necessário saber
+
+- Na policie de recurso você tem que dizer qual usuário está dando permissão (Principal)
+- Na police de identidade/usuario você não tem isso
+
+#### Se há o "Principal", é uma police de recurso.
+#### Se **NÃO** há, é police de identidade
+
+
+- Colocar foto dps
+
+### Porque a police de recurso tem que ter recurso?
+
+- Associei a police a um bucket no S3, o balde pode ter arquivos na raiz do balde e nas "pastas", ai de forma granular eu consigo dar permissão a raiz e tudo la dentro, ou a uma pasta especifica, etc.
+
+### IAM Policy Estrutura de documento
+
+Uma politica IAM é um documento JSON que define permissões. Estrutura basica:
+
+- Version: Data do formato da politica
+- Statement: Lista de permissões
+    - Effect: Permitir ou negar acesso
+    - Action: Ações permitidas ou negadas
+    - Resoruce: Recurso aos quais politica se aplica
+    - Condition: Define condições especificas para a aplicação da politica
+        - Exemplo: Permitir acesso apenas de um endereço IP especifico.
+
+### Diagrama 
+
+
+1. Alguém de algum jeito chamou a AWS:
+    -  Console
+    -  CLI
+    -  SDK
+    -  API REST
+
+2. O walter pediu pra pegar um objeto do S3
+
+3. Ele verifica: existe uma police negando do Walter de pegar o objeto?
+
+4. Se tiver algum Deny, ele nega, mesmo que tenha uma permissão depois.
+
+#### Outro cenario
+
+- Somente se tiver uma permissão explicita, ele pode fazer.
+
+- Se não tiver permissão explicita, ele vai negar tudo do mesmo jeito.
+
+#### Evaluete - Junta todas as polices do usuario para decidir o que vai fazer
+
+#### Efeito, ação e resurso - Os 3 obrigatorios em polices
+
+- Ainda há o "Condition" nas polices
+
+#### Police: doc que da permissão (quais as perms que eu te dou?)
+
+#### Role: é alguem que pode receber uma permissão, uma identidade, tipo um usuário
+
+Deny - NotIpAddress (foto)
+
+## Existe 3 formas de armazenamento nas nuvens
+
+### 1. Armazenamento por blocos:
+- O HD guarda em blocos/setores
+- Chamado de armazenamento blocado, ele usa uma quantidade de blocos.
+
+-EBS (Elastic Block Storage)
+
+- Por isso você pode editar o meio do arquivo, porque ele vai mudar só aquele bloco
+
+### 2. File Share:
+- Computador/Servidor e todo mundo se conecta nele.
+- Ele resolve conflitos se varios usuarios ao mesmo tempo tentarem modificar o mesmo arquivo.
+-EFS (Elastic Fire System)
+-FXs
+
+### 3. De objeto:
+- Baseaso em atributos e metadados
+- S3
+
+## S3:
+
+1. Armazenamento Massio (Ilimitado)
+2. Limite de 5TB por Obj/Arq
+   - Num banco por exemplo, se passar de 5tb, você fraciona e envia os arquivos.
+
+3. Todos os objetos no S3 tem um URL **Global** e **Única**
+
+4. Todo objeto do S3 tem uma chave do objeto ()
+
+- s3-<regiao>.amazonaws.com/<nome-bucket>/<chave-do-objeto>
+
+
 
 
 
