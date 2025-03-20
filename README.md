@@ -502,6 +502,144 @@ Deny - NotIpAddress (foto)
 
 - s3-<regiao>.amazonaws.com/<nome-bucket>/<chave-do-objeto>
 
+- Não existe dois baldes com o mesmo nome no mundo, pois o bucket tem um endereço unico
+
+
+## Aula 20 03
+
+- Por padrão todos os objetos do S3 não vem publicos
+
+- Você pode criar pastas, mas as pastas não exitem
+
+- O S3 nao trabalha com pastas, e sm com objetos, ele irá criar prefixos
+
+- Toda vez que vc faz o upload de um arquivo, a AWS faz a copia dele em 3 AZs, dando 11 noves (99.999999999) de chance de você não perder o arquivo
+
+- Disponibilidade é de 99,99%
+
+- Pode ser usado alta disponibilidade para diminuir chance
+
+- Usos do S3
+-     - Sites estaticos
+-     - Guardar dados financeiros/Sistemas de backup
+
+- O balde é regional (Se foi criado no Brasil, fica só no Brasil)
+-     - Podemos ter uma CDN para acelerar isso, na AWS temos a Cloudfrount
+
+- A AWS da mecanismos para checar se os dados foram copiados, se não houve corrupção
+
+- aws snowball
+
+- Storage Gateway (Grava nele e manda pro S3)
+
+- Desde janeiro de 2024 todos os arquivos dentro do S3 são criptografados
+-     - Quando ele recebe ele criptografa, quando você baixa ele descriptografa e entrega pra você.
+
+- #### Como subir arquivos
+
+- 1. Navegador: 160GB
+  2. CLI: Melhor jeito (aws s3 cp arquivoorigem s3://bucketdestino)
+  3. Escrever um código em Python, dotNet para integrar e enviar
+  4. API Rest
+  5. Tem uma ferramenta nova, tipo explorer do Windows, bem nova
+ 
+- Tenho um arquivo de 1TB
+1. Ter um link rápido
+2. Pode paralelizar ele ,fatiar em arquivos de tamanhos iguais, subo eles e digo pra AWS remontar (Multi Part Upload), tudp feito de forma automatica, aws s3 cp
+
+#### Curiosidade:
+1. Arq maiores que 100MB, indicado fazer MPU
+2. Arq maiores que 5GB, é obrigado a fazer
+3. 5TB tamanho máximo de objeto do S3
+
+Drive Deep S3 resilience AWS
+
+### S3 Transfer Acceleration
+
+- Há um monte de saltos para chegar no datacenter da AWS, para fazer upload de um arquivo
+
+- Posso conectar numa edge location da AWS, pode ser que em Floripa tenha uma, eu conecto nela, de floripa até SP, eu vou por um link proprietario da AWS
+- Ele encurta o caminho até o destinho
+- É o contrario da CDN
+
+- - Trabalha num banco: 99% dos bancos usam FTP.
+  - Por isso a AWS, criou a Transfer Family
+  - Cria uma ponta na frente da AWS, conecta nele e ele manda pra AWS.
+
+  ### S3 - A coisa MAIS importante do S3
+  #### Deve ser decorado
+
+  #### Storage Class
+  - A foram como o S3 guarda a informação, vai definir:
+  - 1. Preço
+    2. Disponibilidade do Arquivo
+
+    **TEM** que decorar
+
+    Classes dividido em dois mundos
+    1. Classes Quentes: Acesso imediato no objeto, subiu, baixa instantaneo
+    2. Calsses Frias: Não tem acesso imediato, o objeto tem que ser recuperado ou reidratado.
+ 
+   #### S3 Standart
+    - Walter eu criei um arquivo, não confirei subi o arquivo, onde ele vai? S3 Standart
+    - É o mais barato para download
+    - É o **mais caro** para guardar
+    - Altamente disponivel
+
+  - Vamos dizer que o cara vai baixar muito pouco o arquivo, sera usado o:
+  - ### Infrquent Access
+    #### S3 Standart-IA
+    - O armazenamento é mais barato
+    - Mas o download é mais caro
+    - Um arquivo que vou acessar menos, no maximo duas vezes no mês
+   
+      - Walter eu não rpeciso de 11 noves de durabilidade
+      - Vou guardar um arquivo que consigo reconstruir com facilidade
+      - Pode ser usado o:
+    #### S3 One Zone-IA
+    - Mais barato para armazenar
+    - Mais caro pra baixar
+    - Sem replicação, só há uma copia, não possui 11 noves de durabilidade
+   
+    - Modelos que não me dão acesso imediato ao objeto
+    - Aqui é um modelo + barato da AWS
+    ### S3 Glace Deep Archive
+    - Pode levar de 12 a 48h para baixar o arquivo
+    - Para guardar é muito barato
+    - Mas pra baixar é muito caro
+
+    - Não posso esperar tanto tempo pra baixar o arquivo
+    ### S3 Glacier Flexible Retrieval
+    - Mais caro que p deep archive
+    - Mais caro pra baixar
+   
+    - Não posso esperar, quero clicar e baixar instantaneamente
+    ### S3 Glacier Instant Retrieval
+    - Não é possivel servir um cloudfrount, CDN, etc
+    - O arquivo tem que ser reidratado, recupera o arquivo em ms
+   
+    #### Na camada fria, não é possível baixar, ele tem que ser recuperado em qualquer um dos glaciers e ir pra camada quente, um S3 standart por exemplo.
+
+    - Se eu não sei o comportamento do arquivo, vou baixar ou não, tme:
+   
+    ### S3 Intelligent-Tiering
+    - Se ficou X dias parados, move pro Infrequent
+    - Ficou muitos dias parados, vai pro Glacier
+    - Ele analisa quanto tempo
+   
+    #### Os arquivos do S3 são imutaveis
+
+    ### S3 Outpots (Frio)
+    - Quero levar a AWS fisicamente para minha empresa
+    - Quero levar um rack de servidor para dentro da minha empresa
+    - Posso pedir até 96 racks, se ultrapassar será criado uma região "só sua"
+    - Eu posso rodar meu S3 dentro da empresa, mas ele perde a elastificade limitada dele
+    - Quando eu peço um desse eu tenho que pedir o disco do tamanho, se precisar eu tenho que pedir mais HD/SSD
+    - O Outpost tem um limite que o rack comporta
+    - Esse é o rack, a AWS vem até sua empresa
+    - Tem o server, que você pode pedir servidores separados.
+
+      
 
 
 
