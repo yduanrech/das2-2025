@@ -639,6 +639,76 @@ Drive Deep S3 resilience AWS
     - Esse é o rack, a AWS vem até sua empresa
     - Tem o server, que você pode pedir servidores separados.
 
+## Aula 24/03
+
+- Quem vai lidar com S3 tem que se preocupar com ciclo de vida do arquivo
+- Como é elastico tem que se preocupar com o tamanho ocupado, pois pode não ser necessário mais e o custo pode ser muito grande e as vezes não é mais necessário.
+
+  O que fazer?
+  1. Mudar a classe de armazenamento
+  2. Excluir arquivos
+ 
+     Há buckets que empresas grandes não tem dinheiro pra mudar a classe, de tão grande que é o bucket
+
+  - Há mecanismos de regras para ser movido para outra classe automaticamente, como por exemplo:
+    1. Arquivos a 6 meses sem ser usado, vai pra uma classe mais barata.
+    2. Depois de 30 dias apaga
+    3. Depois de um ano vai pro Glaiser
+
+- Não podemos deixar nenhum bucket sem isso, pois o custo cresce muito.
+
+  ### Versionamento
+
+  - O S3 permite que você versione os seus objetos
+  - Vem desligado por padrão, caso habilite, não da pra desabilitar, mas pode ser pausado.
+ 
+  - Não da de desabilitar poque ele já tem um 'historico'
+ 
+  - O custo aumenta, pois o S3 guarda o objeto inteiro, não é incremental.
+ 
+  - Algumas funcionalidades do S3 só funciona com versionamento
+ 
+  - O vers. mantem a chave do objeto e cria um código de versão (v1, v2, v3, ....)
+ 
+  - Não da de mudar o objeto/arquivo, nem mesmo o nome.
+ 
+  - Os prefixos são as pastas
+ 
+  - O que identifica o arquivo é a chave, o nome.
+ 
+  - O S3 sabe que é o mesmo arquivo se ele for subido com o mesmo nome (e extensão, claro)
+ 
+    ### CORS (Proteção de arquivos para o seu site)
+
+    é quando um codigo de um site tenta acessar o conteudo de outro site, e este outro site nao permite que isso aconteça
+
+
+    ### O S3 sempre trabalha de forma consistente
+
+    1. Você subiu um objeto
+    2. Ele confirmou que subiu
+    3. No milesimo segundo que terminar de enviar o arquivo e pedir, ele volta o arquivo final
+
+    ### Dicas:
+    1. Por padrão todo bucket é **privado**
+    2. Por padrão todo bucket é criptografado
+    3. Por padrão ele vai usar o Server Side Encrytpion S3 (SSE-S3)
+    4. Você vai optar por usar opções mais complexas de chave se quiser.
+   
+       SSE-S3: É feito no disco do S3, você não se preocupa com nada
+       Client-Side ecrpt: A responsabilidade de criptografar e descriptografar é sua, não da AWS.
+
+    ### Bucket
+  - O que pode fazer
+    1. Tornar ele publico
+    2. Posso dar permissão para usuário, no balde (police de recurso)
+    3. Existe de mecanismo + atigo de versionamento que são as ACLs (não é muito usado, melhor usar polices)
+    4. Posso criar um URL pré assinada (Tenho um arquivo que está bloqueado, se tentar acessar a URL não acessa. Posso dizer pro S3 para criar uma URL para acessar aquele arquivo e ele me pergunta por quanto tempo quero que a URL seja valida, 10 min por exemplo, e gera uma URL para esse acesso temporario)
+    5. Por padrão só quem acesso o bucket é o dono, ele pode dizer mais quem pode acessar ou tornar ele publico (total privado, acesso por usuario ou totalmente publico. 3 tipos)
+    6. O uso da região pode influenciar no custo, varia por região, disponibilidade de serviço, latencia e questoes regulatorias. Tudo isso deve ser considerado antes de escolher uma região.
+    
+    
+
       
 
 
