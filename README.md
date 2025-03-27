@@ -707,7 +707,14 @@ Drive Deep S3 resilience AWS
     5. Por padrão só quem acesso o bucket é o dono, ele pode dizer mais quem pode acessar ou tornar ele publico (total privado, acesso por usuario ou totalmente publico. 3 tipos)
     6. O uso da região pode influenciar no custo, varia por região, disponibilidade de serviço, latencia e questoes regulatorias. Tudo isso deve ser considerado antes de escolher uma região.
     
-    
+## 23 03 25
+
+- Criar bucket, enviar arquivos pra lá, etc
+
+
+### Amazon S3 cost
+
+- Primeiro 100GB de saída por mês é de graça
 
       
 
