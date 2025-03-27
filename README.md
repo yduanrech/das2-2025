@@ -716,6 +716,15 @@ Drive Deep S3 resilience AWS
 
 - Primeiro 100GB de saída por mês é de graça
 
+
+#### Site bom:
+- https://docs.github.com/en/copilot/using-github-copilot/copilot-chat/github-copilot-chat-cheat-sheet
+Ele mostra como usar o copilot em várias IDE
+
+##### Participamentes:
+- São os agentes
+
+
       
 
 
