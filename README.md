@@ -726,7 +726,79 @@ Ele mostra como usar o copilot em várias IDE
 
 
       
+## Aula 07 04 25
 
+### Manualy ruiing commands best practices
+- Userdata
+
+### AMI deployment models
+1. Basic AMI
+- É um modelo pré pronto que você tem que configurar
+
+2. Silver AMI
+- Ela vem com algumas coisas pre configuradas, mas nem tudo, precisa de intervenção
+
+3. Golden AMI
+- A imagem tem tudo que ela precisa, não recebe nenhum tipo de intervenção pra ela funcionar
+
+###
+- Região: É composta por pelo menos 3 AZs
+
+1. Cluster: A AWS tenta manter no mesmo AZ e mesmo rack fisico
+    1. Latencia Baixa
+    2. Baixa disponibilidada
+
+2. Spread: Serviço medico que não pode ficar fora, é espalhado por varios AZs
+    1. Latencia maior, pois estã em locais distantes, mas diferentes
+    2. Maior disponibilidade
+
+3. Partition: 
+Apache kafka
+Cassandra
+Apchae Spark
+
+Usa particionamento ou sharding: A ideia ~e que quando uso particionamento, signifca que os dados não ficam somente em um servidor, mas é importante que esse grupo de servidores ficam próximos, ele é um meio termo do Cluster e do Spred
+
+
+### AWS Free Tier: Amazon EC2
+- Por 12 meses você tem de graça alguns serviços.
+- Ex: t4g.small, t3.micro, t2.micro, etc
+
+- RHEL: Red Hat
+
+### Modelo de precificação
+- Posso mudar o preço da minha maquina do modo que eu compro ela, tempo que eu compro e 
+
+1. On-demand:
+  1. 
+
+2. Reserverd: Você economiza, voc~e vem todo dia no mesm ohorario e vou usar só a esteira, me da um desconto!
+  1. Ele sabe exatamente o equipamento que vou usar
+  2. Chamado de RI (Reserved Instance): Você fala que vai ter um compromisso com a AWS, você reserva ela por 1 ou 3 anos.
+    - AWS: Você vai me pagar como?
+    - AURI 100%: Paga tudo na hora, pode chegar a 75% de desconto
+    - PURI 50%: Paga 50% e parcela o resto
+    - NURI 0%: Paga todo mês parcelado
+  3. É o modelo mais antigo da AWS, ele é meio engessado
+
+3. Saving Plans: Mais felxivel que o Reserved:
+  - Aqui você diz o quando vai gastar, uma estimativa, 2usd/hora, ela aplica desconto nisso e nesse tipo, você pode mudar as configurações do que está usando, ao contrario do Reserved, que as mudanças são minimas.
+
+4. EC2 Spot:
+- Leilão de maquinas da AWS, comprar capacidade ociosa de máquinas na AWS, mas a qualquer momento a AWS pode pedir a máquina de volta e você tem **2 MINUTOS** para devolver ela.
+
+- O tempo todo existe excesso de maquinas rodando, ai ela te oferece um desconto nelas.
+
+Ex: o preço medio é 2 dolares/hora, se tem muitas pessoas pedindo uma mesma maquina fica mais caro, se tem poucas, fica mais barato, isso em todas as maquinas. O preço fica subindo e descendo, quando houver um pedido grande dessa maquina, vai haver escasses, a AWS avisa que vai pegar a maquina de volta.
+
+### Melhores praticas:
+
+1. Automatizar a proteção da maquina
+2. Controlar em varias camadas o trafego da rede
+3. Usar o tipo de maquina correto, com o tamanho correto
+4. Escolher o tipo, na hora de economizar??
+5. Escolher o modelo de precificação correto (Reserved, On-Demand, etc)
+6. Usar de forma conciente, não ter desperdicio
 
 
 
