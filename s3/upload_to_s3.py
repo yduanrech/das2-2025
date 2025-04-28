@@ -1,36 +1,38 @@
 import boto3
-import os
-from botocore.exceptions import NoCredentialsError
+from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 
-# Configurações do S3
-AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY_ID")
-AWS_SECRET_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-BUCKET_NAME = "clonacartao"
+def upload_file_to_s3(file_name, bucket_name, object_name=None):
+    """
+    Faz o upload de um arquivo para um bucket S3.
 
-def upload_file_to_s3(file_path, bucket_name, s3_file_name):
+    :param file_name: Caminho do arquivo local a ser enviado.
+    :param bucket_name: Nome do bucket S3.
+    :param object_name: Nome do arquivo no bucket S3 (opcional).
+    """
+    # Se nenhum nome de objeto for fornecido, usa o nome do arquivo local
+    if object_name is None:
+        object_name = file_name
+
+    # Cria o cliente S3
+    s3_client = boto3.client('s3')
+
     try:
-        s3 = boto3.client(
-            's3',
-            aws_access_key_id=AWS_ACCESS_KEY,
-            aws_secret_access_key=AWS_SECRET_KEY
-        )
-        s3.upload_file(file_path, bucket_name, s3_file_name)
-        print(f"Upload bem-sucedido: {s3_file_name}")
+        # Faz o upload do arquivo
+        s3_client.upload_file(file_name, bucket_name, object_name)
+        print(f"Arquivo '{file_name}' enviado com sucesso para o bucket '{bucket_name}' como '{object_name}'.")
     except FileNotFoundError:
-        print("Arquivo não encontrado.")
+        print(f"Erro: O arquivo '{file_name}' não foi encontrado.")
     except NoCredentialsError:
-        print("Credenciais não disponíveis.")
+        print("Erro: Credenciais da AWS não encontradas.")
+    except PartialCredentialsError:
+        print("Erro: Credenciais da AWS incompletas.")
+    except Exception as e:
+        print(f"Erro: {e}")
 
-def upload_directory_to_s3(directory_path, bucket_name):
-    for root, dirs, files in os.walk(directory_path):
-        for file in files:
-            file_path = os.path.join(root, file)
-            s3_file_name = os.path.relpath(file_path, directory_path)
-            upload_file_to_s3(file_path, bucket_name, s3_file_name)
-
+# Exemplo de uso
 if __name__ == "__main__":
-    # Caminho da pasta contendo os arquivos HTML, CSS, JS e imagens
-    directory_path = "s3/site"
-    
-    # Realiza o upload de todos os arquivos da pasta para o S3
-    upload_directory_to_s3(directory_path, BUCKET_NAME)
+    file_name = "./s3/exemplo.txt"  # Substitua pelo caminho do arquivo que deseja enviar
+    bucket_name = "walter10111980"  # Substitua pelo nome do bucket
+    object_name = "index.html"  # Nome do arquivo no bucket (opcional)
+
+    upload_file_to_s3(file_name, bucket_name, object_name)
