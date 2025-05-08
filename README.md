@@ -283,3 +283,97 @@ Eu posso associar um IP publico a máquina, mas a máquina só enxerga o IP Priv
 
 2. Privada:
 
+
+## Aula 08 05
+
+IPs publicos são pagos
+Só pode ter 5 IPs publicos por região, se precisar de mais, tem ue pedir pra AWS.
+IPv6 não é pago, só IPv4
+
+### Private Subnets
+- Ela não chega na internet e a internet não chega nela
+- ela não consegue acessar nem mesmo serviós da AWS, s3, etc
+- Num lugar desse que vamos subir um DB, File Share, Kafka
+- Não enxerga pois não tem a regra de saida para o Internet Gateway e sem IP publico também
+
+#### NAT
+- Traduz o endereço ip privado para publico e vice versa
+
+**Como a maquina está isolada da internet, como ela vai se atualizar?**
+Não vai!
+
+Teria que ter uma maquina publica e conectar na privada e copiar manualmente os arquivos pra ela
+
+Como eu permito que as maquina que estão numa subnet privada e eu preciso baixar um pacote do SQL server, mas eu quero que a conexão só ocorra de dentro pra fora, nunca o contrario.?
+
+Eu coloco um nat gateway, ele é um nat atras de outro nat
+eu digo que quem etá na nat privada quiser sair pra internet, eu mando ela pedir pro nat gatewaym, forçado pela tabela de roteamento.
+
+Se alguém tentar conectar na maquina da subnet privada, não consegue, porque quem tem ip publico é o NAT Gateway, que dropa se o pacote tenta entrar.
+
+Cobra por hora de execução e por uso.
+
+db: privado
+
+processamento bet/lote: privado
+
+aplicação web: publico/privado
+
+nat gateway: publico
+
+
+### Tenha segurança em varias camadas
+
+![alt text](image-2.png)
+
+1. Segurity Group
+   1. Quem eu peço pra abrir as portas
+   2. Taggeia os pacotes de rede
+   3. Se criei regra de inbound, ele cria de outbound automatico
+   4. Firewall Stateful: lembra dos pacote que passaram por ele
+2. Network ACL (Access list)
+   1. Firewall no escopo da VPC
+   2. Firewall stateless
+   3. porta efemera: acima do 1024
+   4. Se eu liberar a de entrada, tenho que liberar a de saida também, manualmente
+3. Network Firewall
+   1. Servidor de firewall que podemos subir numa subnet especial pra isso
+   2. Nele conseguimos controlar as regras de entrada de saida pra internet
+
+Jump Box/bastion Hosts
+
+Da maquina exposta na intenet eu conecto na sem internet por segurança.
+
+Pra uma ec2 conectar num s3, precisa ser acessado pela internet publica, pois é um sesrviço gerenciado pela AWS.
+
+pra conectar pela rede interna, nos conseguimos dar um ip privado, com o VPC Endpoint, há dois tipos
+
+![alt text](image-3.png)
+
+1. interface vpc endpoint: cria uma placa de rede virtual e cria um tunel que conecta com o sesrviço da aws e conecta no s3 por um ip privado e não passaria por um nat gateway.
+  ele é pago, cobra por hora e dados processados
+
+Há uma opção de graça:
+2. Gateway vpc endpoint:
+   1. ele só se conecta com o s3 e dynamo db
+   2. O interface conecta a qualquer serviço da aws.
+   3. Posui banda ilimitada
+   4. é redundante
+   
+### LOAD BALANCER
+balanceia a carga entre maquinas/serviços
+
+### gateway load balancer
+Vamos dizer que eu não quero usar o serviço da aws, que eu compro um software de terceiro, eu instalo ele numa ec2, coloco o gateway load balancer exposto pra internet e o que bater nele, manda pro software
+Complicado de usar
+
+### logs
+Ferramentas de depuração de rede.
+#### VPC flow logs
+Isso não é um TCPDump nem um Wireshark, ele é uma interface de rede em modo promiscuo que fica ouvindo pacotes, é um log de tentativa de conexão.
+![alt text](image-4.png)
+
+Ferramentas mais modernas:
+![](image-5.png)
+
+Traffic Mirroring ouve o trafeco TCP dentro da rede.
