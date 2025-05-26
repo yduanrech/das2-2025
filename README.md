@@ -431,3 +431,60 @@ Melhor performance que VPN
 Consistência de latência
 
 Alta disponibilidade com redundância
+
+Aula 26/05
+
+IAM Groups
+Agrupam usuários com permissões semelhantes
+
+Permissões são atribuídas aos grupos por meio de políticas
+
+Usuários herdam as permissões do grupo
+
+Boa prática: não dar permissão diretamente ao usuário, mas sim via grupo
+
+Exemplo de grupos: Admins, DevOps, Finance, Leitura-S3
+
+Roles - AWS STS
+Roles (funções) são permissões temporárias atribuídas a identidades (usuários, serviços ou contas)
+
+Muito usada para delegar acesso entre contas, serviços ou usuários externos
+
+STS (Security Token Service) permite gerar tokens temporários de acesso
+
+Exemplo: uma aplicação EC2 assume uma role com permissão para acessar o S3
+
+Roles não são associadas a um usuário específico, ao contrário dos grupos
+
+Benefícios:
+Maior segurança (tempo limitado)
+
+Boa prática em ambientes multi-conta ou com recursos temporários
+
+AWS Cognito
+Serviço gerenciado de autenticação, autorização e gerenciamento de usuários
+
+Substitui a necessidade de criar seu próprio sistema de login
+
+Pode autenticar com:
+
+Provedores sociais (Google, Facebook, Apple)
+
+Diretórios corporativos (SAML, AD)
+
+Login direto com e-mail/senha (user pool)
+
+Integra-se com IAM Roles para dar acesso a serviços AWS
+
+Dois componentes principais:
+
+User Pools: banco de usuários com autenticação e recuperação de senha
+
+Identity Pools: gera credenciais temporárias da AWS para o usuário autenticado
+
+Exemplo de uso:
+App mobile autentica no Cognito (User Pool)
+
+Cognito valida o usuário e fornece token
+
+Token é usado para acessar recursos da AWS via IAM Role (com STS)
