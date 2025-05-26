@@ -377,3 +377,57 @@ Ferramentas mais modernas:
 ![](image-5.png)
 
 Traffic Mirroring ouve o trafeco TCP dentro da rede.
+
+
+# Aula 19/05
+
+VPC Peering
+Conecta duas VPCs privadas diretamente, sem passar pela internet
+
+Comunicação é feita por meio de IPs privados
+
+É possível conectar VPCs em contas diferentes (com permissão)
+
+Tráfego é roteado internamente pela rede da AWS
+
+Baixa latência e sem custo adicional por hora, apenas pelo tráfego
+
+Limitação: não permite transitar tráfego entre VPCs (transitive peering não é suportado)
+
+AWS VPN Site-to-Site
+Conecta a rede local (on-premises) com a VPC da AWS usando túneis IPsec
+
+Usa a internet pública como meio de transporte
+
+Mais barato que o Direct Connect
+
+Pode ter variação de latência
+
+Ideal para quem precisa de uma solução rápida e segura de conexão
+
+Requer configuração de um Customer Gateway e um Virtual Private Gateway
+
+Exemplo de uso:
+Escritório central precisa acessar recursos em uma VPC na AWS
+
+Tráfego passa por um túnel criptografado sobre a internet
+
+AWS Direct Connect
+Conexão física dedicada entre o datacenter local e a AWS
+
+Alta largura de banda, baixa latência e mais segurança
+
+Não passa pela internet
+
+Pode ser integrado com o Virtual Interface (VIF) para acessar VPC ou serviços da AWS
+
+Cobrado por hora + volume de dados trafegados
+
+Ideal para cargas críticas ou uso intenso de rede
+
+Benefícios:
+Melhor performance que VPN
+
+Consistência de latência
+
+Alta disponibilidade com redundância
