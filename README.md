@@ -488,3 +488,81 @@ App mobile autentica no Cognito (User Pool)
 Cognito valida o usuário e fornece token
 
 Token é usado para acessar recursos da AWS via IAM Role (com STS)
+
+
+Aula 29/05
+
+AWS Cognito  
+Serviço gerenciado de autenticação, autorização e gerenciamento de identidade
+
+Evita a necessidade de criar um sistema de login do zero
+
+Permite autenticação com:
+
+- Provedores sociais (Google, Facebook, Apple)
+- Diretórios corporativos (SAML, Active Directory)
+- E-mail e senha (User Pool próprio)
+
+Integração com IAM para controle de acesso aos recursos da AWS
+
+Dois componentes principais:
+
+**User Pools**  
+Banco de usuários gerenciado pela AWS  
+- Responsável pela autenticação (login, registro, recuperação de senha)  
+- Suporte a MFA, verificação de e-mail e telefone  
+- Gera tokens (JWT) para o usuário autenticado
+
+**Identity Pools**  
+- Converte identidade autenticada em credenciais temporárias da AWS (via STS)  
+- Permite acessar serviços AWS com permissões específicas  
+- Associa usuários a IAM Roles com base em grupos ou atributos
+
+Exemplo de uso:  
+1. App web faz login pelo Cognito (User Pool)  
+2. Cognito valida as credenciais e retorna token JWT  
+3. Token é usado para obter credenciais temporárias no Identity Pool  
+4. App acessa recursos AWS (ex: S3, DynamoDB) usando a Role atribuída
+
+Benefícios:
+- Escalável e seguro
+- Reduz complexidade de autenticação/autorização
+- Integração fácil com aplicações web e mobile
+
+AWS Control Tower  
+Serviço para configurar e gerenciar um ambiente multi-conta seguro na AWS
+
+Cria uma **landing zone** com boas práticas já aplicadas
+
+Ideal para organizações que precisam gerenciar várias contas com governança centralizada
+
+Funcionalidades principais:
+
+- Criação automatizada de contas com padrões de segurança
+- Organização das contas em unidades (OUs – Organizational Units)
+- Aplicação de **guardrails** (regras de segurança e conformidade)
+- Integração com AWS Organizations, AWS SSO e CloudTrail
+
+Componentes:
+
+**Landing Zone**  
+Ambiente inicial com múltiplas contas (ex: root, log, auditoria)  
+- Pré-configurado com segurança, rede e monitoramento
+
+**Guardrails**  
+- Políticas pré-definidas que aplicam restrições ou monitoramento  
+- Tipos: Preventivos (bloqueiam ações) e Detectivos (auditam comportamentos)
+
+**Account Factory**  
+- Ferramenta para criar novas contas com configurações padronizadas  
+- Usa Service Catalog para facilitar o provisionamento
+
+Benefícios:
+- Governança centralizada em ambientes complexos
+- Conformidade automática com políticas da organização
+- Escalabilidade: fácil criar e gerenciar novas contas com segurança padronizada
+
+Exemplo de uso:
+1. Organização quer separar contas por time (ex: Dev, Prod, Finanças)
+2. Control Tower cria contas com guardrails específicos para cada OU
+3. Equipes usam suas contas de forma isolada, com segurança e compliance garantidos
