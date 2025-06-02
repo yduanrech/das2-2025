@@ -566,3 +566,85 @@ Exemplo de uso:
 1. Organização quer separar contas por time (ex: Dev, Prod, Finanças)
 2. Control Tower cria contas com guardrails específicos para cada OU
 3. Equipes usam suas contas de forma isolada, com segurança e compliance garantidos
+
+
+Aula 02/06
+Monitoring Distributed Application Components
+Monitoramento de componentes distribuídos em aplicações na AWS
+
+Objetivo: Observar, diagnosticar e manter a saúde e performance de aplicações que possuem múltiplos serviços espalhados em diferentes ambientes e regiões
+
+Desafios em ambientes distribuídos:
+Visibilidade limitada entre serviços e regiões
+
+Diagnóstico difícil de falhas em serviços interdependentes
+
+Rastreamento de requisições complexas (ex: microservices)
+
+Principais serviços AWS utilizados:
+Amazon CloudWatch
+Serviço central de monitoramento de aplicações, infraestrutura e serviços AWS
+
+Coleta métricas, logs e eventos
+
+Permite criação de dashboards personalizados
+
+Alerta baseado em métricas (ex: CPU alta, falhas em API)
+
+CloudWatch Logs
+
+Armazena e analisa logs de aplicações e sistemas
+
+Suporte a filtros e insights via CloudWatch Logs Insights
+
+Possível integrar com Lambda, ECS, API Gateway, etc.
+
+CloudWatch Metrics
+
+Métricas padrão (default) e customizadas
+
+Visualização em dashboards
+
+Permite definir alarmes para ações automáticas (ex: auto scaling)
+
+AWS X-Ray
+Ferramenta de rastreamento de requisições entre serviços distribuídos
+
+Cria um mapa de serviços para análise de dependências
+
+Ajuda a identificar gargalos e falhas em chamadas entre microserviços
+
+Útil para aplicações com Lambda, ECS, API Gateway, etc.
+
+AWS CloudTrail
+Rastreamento de chamadas de API na conta AWS
+
+Histórico detalhado de quem fez o quê e quando
+
+Complementa o monitoramento de segurança e auditoria
+
+Pode enviar eventos para CloudWatch e gerar alarmes
+
+Exemplo de monitoramento de uma aplicação distribuída:
+API Gateway recebe chamada de cliente
+
+Gateway aciona função Lambda
+
+Lambda acessa DynamoDB
+
+CloudWatch coleta métricas e logs de cada serviço
+
+X-Ray rastreia toda a requisição ponta-a-ponta
+
+Alarme no CloudWatch detecta erro repetido na Lambda
+
+Notificação enviada via SNS ou ação corretiva disparada (ex: recriar instância)
+
+Benefícios:
+Visibilidade ponta-a-ponta da aplicação
+
+Diagnóstico mais rápido de falhas e lentidão
+
+Automatização de respostas a incidentes
+
+Suporte a ambientes complexos (microservices, serverless, containers)
