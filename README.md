@@ -648,3 +648,56 @@ Diagnóstico mais rápido de falhas e lentidão
 Automatização de respostas a incidentes
 
 Suporte a ambientes complexos (microservices, serverless, containers)
+
+# Aula 16/06/25
+
+## Elastic Load Balancing (ELB)
+
+### O que é?
+- Serviço que distribui automaticamente o tráfego de entrada entre múltiplas instâncias EC2, containers, ou IPs.
+- Melhora a disponibilidade e escalabilidade da aplicação.
+
+### Tipos de ELB
+- **Application Load Balancer (ALB)**: camada 7 (HTTP/HTTPS), roteamento avançado, ideal para microsserviços e APIs.
+- **Network Load Balancer (NLB)**: camada 4 (TCP/UDP), ultra baixa latência e alta performance.
+- **Classic Load Balancer (CLB)**: legado, suporta camadas 4 e 7.
+- **Gateway Load Balancer (GWLB)**: camada 3 (IP), permite integração transparente de appliances de rede de terceiros (firewalls, sistemas de detecção/prevenção de intrusão), ideal para arquiteturas de segurança escaláveis.
+
+### Benefícios
+- Balanceamento inteligente e escalável.
+- Suporte a SSL/TLS termination.
+- Health checks para monitorar instâncias saudáveis.
+- Integração com Auto Scaling para ajuste automático da capacidade.
+
+# Componentes de um Load Balancer
+
+- **Listener**: Porta e protocolo que recebem o tráfego de entrada.
+- **Target Group**: Conjunto de instâncias ou recursos que recebem o tráfego.
+- **Health Check**: Monitoramento da saúde dos recursos; remove instâncias não saudáveis.
+- **Regras de Roteamento**: Direciona requisições para diferentes targets baseado em URL, host, etc. (ALB).
+- **Configurações de Segurança**: SSL/TLS, certificados e regras de acesso.
+- **Cross-Zone Load Balancing**: Distribuição do tráfego entre múltiplas zonas de disponibilidade.
+- **Logging e Monitoramento**: Métricas e logs para análise e alerta.
+- **Integração com Auto Scaling**: Ajusta automaticamente a capacidade conforme demanda.
+
+# Route 53 Multi-Region Failover
+
+- **Amazon Route 53** é o serviço DNS da AWS que permite gerenciar o tráfego de domínios.
+
+- **Multi-Region Failover** é uma configuração para garantir alta disponibilidade e continuidade, direcionando tráfego automaticamente para regiões secundárias caso a principal falhe.
+
+## Como funciona
+
+- Você configura **health checks** para monitorar a saúde dos endpoints (ex: servidores em diferentes regiões).
+- Route 53 direciona o tráfego para a região primária enquanto estiver saudável.
+- Se a região primária ficar indisponível, o tráfego é redirecionado automaticamente para a região secundária.
+- Pode ser usado com outros tipos de roteamento (weighted, latency).
+
+## Benefícios
+
+- Minimiza downtime com failover automático.
+- Melhora a resiliência geográfica da aplicação.
+- Fácil configuração e integração com outros serviços AWS.
+
+
+
