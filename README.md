@@ -699,5 +699,189 @@ Suporte a ambientes complexos (microservices, serverless, containers)
 - Melhora a resiliência geográfica da aplicação.
 - Fácil configuração e integração com outros serviços AWS.
 
+# Aula 23 06 25
+
+IaC overview
+
+Terraform
+
+Infraestrutura como codigo
+Eu escrevo um documento e descrevo o que eu preciso
+  Eu quero um servidor
+  Eu quero um banco de dados
+E mando esse temaplete pra um serviço da AWS
+
+Terraform é agnostico de nuvem, multi cloud
+
+Mas famos falar do IaC da AWS -> CloudFormation
+
+Serviço da AWS para criar e gerenciar infraestrutura como código (IaC), usando arquivos YAML ou JSON chamados templates.
+
+Conceitos-Chave
+Template: Define os recursos (YAML/JSON).
+
+JSON: é mais verboso, vai ter uma chave e um valor
+  Pode ter objetos ou listas
+
+YAML(iamel):
+  Usa ideia do Python, é usado identação
+
+A gente manda esse template pra AWS CloudFormation, ela manda pro S3 e valida.
+
+Stack: Conjunto de recursos gerenciados juntos.
+Representação logica de tudo que ele fez
+Toda vez que apaga essa representação, o stack, ele apaga tudo.
+
+COnceito:
+Em vez de fazer na mão, você descreve esse template e uma ferramenta faz o servidor pra você
+
+Change Set: Pré-visualização de mudanças.
+
+Drift Detection: Detecta alterações fora do CFN.
+
+Exemplo Simples
+yaml
+
+Resources:
+  MeuBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: exemplo-meu-bucket
+Vantagens
+Automatiza infraestrutura
+
+Reprodutível e versionável
+
+Integra com CI/CD
+
+
+Outros serviços usam o CloudFormation
+  - AWS SAM (Framwork para desenvolver applicações e gerar templates)
+
+
+## Drift Detection
+
+### O que é?
+**Drift Detection** é uma funcionalidade do AWS CloudFormation que identifica se recursos foram modificados fora do controle do template (ex: alterações manuais no console).
+
+---
+
+### Como funciona?
+- Compara o **estado atual** dos recursos com o que está definido no **template da stack**.
+- Identifica discrepâncias ("drifts").
+
+---
+
+### Resultados possíveis:
+- `IN_SYNC` – Sem alterações fora do CloudFormation.
+- `MODIFIED` – Recurso foi alterado.
+- `DELETED` – Recurso foi removido fora da stack.
+- `NOT_CHECKED` – Recurso não pôde ser avaliado.
+
+## AWS Quick Start
+
+### O que é?
+- Conjunto de modelos de referência automatizados e validados pela AWS.
+- Permite implantar rapidamente arquiteturas completas e seguras na AWS.
+- Usado para acelerar implantações baseadas em melhores práticas da AWS e parceiros.
+
+### Características
+- Utiliza **AWS CloudFormation** para criar a infraestrutura.
+- Inclui documentação detalhada para ajudar na personalização e uso.
+- Pode ser usado como ponto de partida para ambientes de produção, teste ou desenvolvimento.
+
+### Componentes de um Quick Start
+- **Arquitetura de Referência**: Baseada em boas práticas da AWS.
+- **Modelos CloudFormation**: Arquivos YAML/JSON prontos para implantar os recursos.
+- **Guias de Implementação**: Documentos com instruções passo a passo.
+- **Parcerias Tecnológicas**: Muitos Quick Starts são desenvolvidos com fornecedores como Microsoft, SAP, Palo Alto, etc.
+
+### Benefícios
+- Reduz o tempo de implantação de dias para minutos.
+- Infraestrutura confiável, segura e reprodutível.
+- Menor chance de erro humano na criação do ambiente.
+- Projetado para alta disponibilidade e escalabilidade.
+
+## Exemplos Populares de Quick Starts
+
+- Microsoft Active Directory Domain Services
+- Kubernetes com Amazon EKS
+- SAP S/4HANA
+- WordPress com Amazon RDS
+- Palo Alto Networks VM-Series
+
+## Amazon Q
+
+### O que é?
+- Assistente de **IA generativa** criado pela AWS para ajudar desenvolvedores, engenheiros de dados, analistas e equipes empresariais.
+- Integra-se a serviços da AWS, repositórios de código, bancos de dados e ferramentas corporativas.
+- Suporta tarefas como geração de código, explicação de infraestrutura, análise de dados e suporte interno.
+
+### Modos de Uso
+- **Amazon Q Developer**: Assistente para desenvolvedores — disponível no console da AWS, IDEs (como VS Code) e CLI.
+- **Amazon Q Business**: Ajuda usuários corporativos a interagir com dados e sistemas internos via linguagem natural.
+- **Amazon Q Apps**: Gera aplicativos internos a partir de prompts em linguagem natural (beta).
+
+### Integrações
+- AWS Console e Documentação
+- IDEs (VS Code, JetBrains)
+- Repositórios Git (CodeCommit, GitHub)
+- Ferramentas de produtividade (Slack, Atlassian, Microsoft 365)
+- Amazon Bedrock para customização com modelos fundacionais
+
+### Benefícios
+- Acelera o desenvolvimento e solução de problemas.
+- Melhora a produtividade com respostas contextuais baseadas no ambiente.
+- Permite criar apps internos de forma rápida e segura.
+- Facilita o acesso a dados corporativos com governança e controle.
+
+## Funcionalidades-Chave
+
+- **Geração e explicação de código**
+- **Respostas baseadas em contexto do ambiente AWS**
+- **Sugestões de melhorias de segurança e performance**
+- **Chat inteligente com fontes internas da empresa**
+- **Criação automática de aplicativos (Q Apps)**
+- **Acesso com permissões baseadas em identidade corporativa (IAM, SSO)**
+
+## Casos de Uso
+
+- Depuração de código e infraestrutura
+- Geração de queries SQL ou código para análise de dados
+- Suporte interno baseado em documentação e repositórios privados
+- Criação de dashboards e apps com comandos em linguagem natural
+
+## Cache
+  ### CloudFront - CDN da AWS -> Cloudflare (roda dentro da AWS)
+
+### ElasticCache
+  Serve para banco de dados
+  Serviço que guarda os dados em memoria para nao ir no banco de dados
+  Trabalha com 3 engines
+    MemCache
+    Redis
+    Valkey (Fork do Redis antes dele se tornar pago)
+
+### Padrões e Técnicas Comuns de Cache
+
+- **Lazy Loading**  
+  Carrega dados no cache somente quando são requisitados pela primeira vez. Se não estiver no cache, busca na fonte original e atualiza o cache.
+
+- **Cache Aside**  
+  A aplicação é responsável por buscar e popular o cache. O cache é atualizado ou removido quando os dados mudam na origem.
+
+- **Write Through / Write Behind**  
+  Dados são escritos simultaneamente no cache e na origem (Write Through), ou escritos primeiro no cache e depois sincronizados com a origem (Write Behind).
+
+- **Cache Warming**  
+  Pré-carregamento do cache com dados conhecidos antes de serem requisitados para evitar latência inicial.
+
+- **Time to Live (TTL)**  
+  Configuração para expirar dados no cache automaticamente após determinado tempo, garantindo que dados desatualizados não sejam usados.
+  
+
+
+
+
 
 
