@@ -881,7 +881,29 @@ Outros serviços usam o CloudFormation
   
 
 
+# Aula 26/06
+Como Reduzir o Acoplamento das Aplicações na AWS
+Acoplamento é quando um sistema depende diretamente de outro para funcionar
 
+O objetivo é fazer com que as partes do sistema funcionem de forma independente
+
+Como Reduzir o Acoplamento
+Usar filas (SQS):
+Uma parte da aplicação envia mensagens para uma fila, e outra parte pega essas mensagens depois
+Exemplo: o site recebe pedidos e coloca em uma fila; outro sistema processa esses pedidos
+
+Usar notificações (SNS):
+Permite enviar mensagens para vários sistemas ao mesmo tempo
+Exemplo: quando um pedido é criado, enviar notificação para o cliente e para o setor responsável
+
+Separar bancos de dados:
+Cada sistema pode ter o seu banco de dados para evitar dependência
+
+Usar APIs:
+Cada parte da aplicação pode ser acessada por uma API, sem precisar saber como as outras funcionam
+
+Arquitetura em camadas:
+Dividir o sistema em camadas, por exemplo: interface, lógica de negócio e banco de dados
 
 
 
